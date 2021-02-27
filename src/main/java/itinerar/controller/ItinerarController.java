@@ -41,9 +41,7 @@ public class ItinerarController {
     //seznam polozek itinerare
     @Get("/itinerar/{id}/polozka")
     public List<Polozka> polozkaList (Long id){
-        Optional<Itinerar> itinerar = itinerarRepository.findById(id);
-        itinerar.get().
-        return (List<Polozka>) polozkaRepository.findAll();
+        return polozkaRepository.findByItinerarId(id);
     }
     //Seznam kategorii
     @Get("/kategorie")
@@ -53,9 +51,8 @@ public class ItinerarController {
 
     //prejmenova itinerare
     @Put ("/itinerar/{id}")
-    public void rename(Long id, String novyNazev){
-        Optional<Itinerar> itinerar = itinerarRepository.findById(id);
-        itinerar.get().setNazev(novyNazev);
+    public Itinerar update(Long id, Itinerar itinerar){
+        return itinerarRepository.update(itinerar);
     }
 
     //archivace itinerare
@@ -68,21 +65,23 @@ public class ItinerarController {
     @Post("/itinerar/{id}/polozka")
     public Polozka save(Polozka polozka, Long id){
         Optional<Itinerar> itinerar = itinerarRepository.findById(id);
-
+        polozka.setItinerar(itinerar.get());
         return polozkaRepository.save(polozka);
     }
 
     //smazani polozky
-    @Delete ("/itinerar/{id}/polozka/{id}")
-    public void deletePolozka (Long id){
-        Optional<Itinerar> itinerar = itinerarRepository.findById(id);
-
+    @Delete ("/itinerar/{idItinerar}/polozka/{idPolozka}")
+    public void deletePolozka (Long idItinerar, Long idPolozka){
+        Optional<Itinerar> itinerar = itinerarRepository.findById(idItinerar);
+        itinerarRepository.deleteByItinerarIdAndPolozkaId(idItinerar,idPolozka );
     }
 
     //editace polozky
-    @Put ("/itinerar/{id}/polozka/{id}")
-    public void editPolozka (Long id){
-        Optional<Itinerar> itinerar = itinerarRepository.findById(id);
+    @Put ("/itinerar/{idItinirar}/polozka/{idPolozka}")
+    public void editPolozka (Long idItinerar, Long idPolozka, Polozka polozka){
+        Optional<Itinerar> itinerar = itinerarRepository.findById(idItinerar);
+        polozka.setItinerar(itinerar.get());
+        polozkaRepository.update(polozka);
 
     }
 
