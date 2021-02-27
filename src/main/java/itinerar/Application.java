@@ -1,4 +1,4 @@
-package itenerar;
+package itinerar;
 
 import io.micronaut.runtime.Micronaut;
 
