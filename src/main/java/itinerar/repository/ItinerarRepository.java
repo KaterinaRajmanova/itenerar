@@ -6,5 +6,5 @@ import itinerar.domain.Itinerar;
 
 @Repository
 public interface ItinerarRepository extends CrudRepository<Itinerar,Long> {
-    public void deleteByItinerarIdAndPolozkaId(Long itinerarID, Long polozkaID);
+
 }

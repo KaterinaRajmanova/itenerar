@@ -12,7 +12,7 @@ import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
 
-@Controller
+@Controller("/api")
 public class ItinerarController {
 
     private final ItinerarRepository itinerarRepository;
@@ -73,11 +73,11 @@ public class ItinerarController {
     @Delete ("/itinerar/{idItinerar}/polozka/{idPolozka}")
     public void deletePolozka (Long idItinerar, Long idPolozka){
         Optional<Itinerar> itinerar = itinerarRepository.findById(idItinerar);
-        itinerarRepository.deleteByItinerarIdAndPolozkaId(idItinerar,idPolozka );
+       polozkaRepository.delete(itinerar.get(),idPolozka);
     }
 
     //editace polozky
-    @Put ("/itinerar/{idItinirar}/polozka/{idPolozka}")
+    @Put ("/itinerar/{idItinerar}/polozka/{idPolozka}")
     public void editPolozka (Long idItinerar, Long idPolozka, Polozka polozka){
         Optional<Itinerar> itinerar = itinerarRepository.findById(idItinerar);
         polozka.setItinerar(itinerar.get());
